@@ -31,12 +31,6 @@ var Main = (function (_super) {
     //public sssssss;
     function Main() {
         _super.call(this);
-        this.state = 0;
-        this.Idlelist = ["Idle0_png", "Idle1_png", "Idle2_png", "Idle3_png"];
-        this.Idlecount = -1;
-        this.Walklist = ["10000_png", "10001_png", "10002_png", "10003_png", "10004_png", "10005_png", "10006_png", "10007_png"];
-        this.Walkcount = -1;
-        this.i = 0;
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
     var d = __define,c=Main,p=c.prototype;
@@ -113,92 +107,15 @@ var Main = (function (_super) {
         bg.height = this.stage.stageHeight;
         this.addChild(bg);
         var p = new Person();
-        p.Creat();
+        p.firstCreat();
         p.x = 111;
         p.y = 111;
         this.addChild(p);
-        /*  this.container = new egret.DisplayObjectContainer();
-          this.addChild(this.container);
-          this.container.x = 250;
-          this.container.y = 350;
-          */
-        /* this._person=this.createBitmapByName("10000_png");
-         this.IdlePlay();
-         this.stage.$touchEnabled=true;
-         this._person.x=111;
-         this._person.y=111;
-         this.setAnchor(this._person);
-         var x:number;
-         var y:number;
-         this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP,(evt:egret.TouchEvent)=>{
-          
-             this.WalkPlay();
-             this.StopIdlePlay();
-             if(this.state==0){
-                 egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},2000, egret.Ease.sineIn );
-                 //console.log(this._person.x+","+this._person.y);
-                 //console.log(evt.stageX+",,,,,"+evt.stageY);
-             }else{
-                 egret.Tween.removeTweens(this._person);
-                 egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},2000, egret.Ease.sineIn );
-             }
-             this.state=1;
-             x=evt.stageX;
-             y=evt.stageY;
-            
-         },this);
-         this.addChild(this._person);
-         egret.startTick(():boolean=>{
-             if(this._person.x==x && this._person.y==y){
-                 this.StopWalkPlay();
-                 this.PlayIdle();
-                 console.log("123456498");
-                 this.state=0;
-             }
+        /* egret.startTick(():boolean=>{
+              p.Creat();
              return false;
-         },this);
- 
- */
-    };
-    p.IdlePlay = function () {
-        egret.startTick(this.PlayIdle, this);
-    };
-    p.PlayIdle = function () {
-        this.Idlecount++;
-        this.i++;
-        if (this.Idlecount >= this.Idlelist.length)
-            this.Idlecount = 0;
-        //console.log(this.Idlecount);
-        if (this.i == 10) {
-            this._person.texture = RES.getRes(this.Idlelist[this.Idlecount]);
-            this.i = 0;
-        }
-        return false;
-    };
-    p.StopIdlePlay = function () {
-        egret.stopTick(this.PlayIdle, this);
-    };
-    p.WalkPlay = function () {
-        egret.startTick(this.PlayWalk, this);
-    };
-    p.PlayWalk = function () {
-        this.Walkcount++;
-        this.i++;
-        //console.log(this.i);
-        if (this.Walkcount >= this.Walklist.length)
-            this.Walkcount = 0;
-        if (this.i == 10) {
-            this._person.texture = RES.getRes(this.Walklist[this.Walkcount]);
-            this.i = 0;
-        }
-        return false;
-    };
-    p.StopWalkPlay = function () {
-        egret.stopTick(this.PlayWalk, this);
-    };
-    p.setAnchor = function (e) {
-        e.$setAnchorOffsetX(e.width / 2);
-        e.$setAnchorOffsetY(e.height / 2);
+         },this);*/
+        p.Creat();
     };
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。

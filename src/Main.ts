@@ -110,10 +110,6 @@ class Main extends egret.DisplayObjectContainer {
         }
     }
 
-    private textfield:egret.TextField;
-    private container;
-    private _person:egret.Bitmap;
-    private state:number=0;
     /**
      * 创建游戏场景
      * Create a game scene
@@ -125,101 +121,18 @@ class Main extends egret.DisplayObjectContainer {
         this.addChild(bg);
         
         var p:Person=new Person();
-        p.Creat();
+        p.firstCreat();
         p.x=111;
         p.y=111;
         this.addChild(p);
-      /*  this.container = new egret.DisplayObjectContainer();
-        this.addChild(this.container);
-        this.container.x = 250;
-        this.container.y = 350;
-        */
-       /* this._person=this.createBitmapByName("10000_png");
-        this.IdlePlay();
-        this.stage.$touchEnabled=true;
-        this._person.x=111;
-        this._person.y=111;
-        this.setAnchor(this._person);
-        var x:number;
-        var y:number;
-        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP,(evt:egret.TouchEvent)=>{
-         
-            this.WalkPlay();
-            this.StopIdlePlay();
-            if(this.state==0){
-                egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},2000, egret.Ease.sineIn );
-                //console.log(this._person.x+","+this._person.y);
-                //console.log(evt.stageX+",,,,,"+evt.stageY);
-            }else{
-                egret.Tween.removeTweens(this._person);
-                egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},2000, egret.Ease.sineIn );
-            }
-            this.state=1;
-            x=evt.stageX;
-            y=evt.stageY;
-           
-        },this);
-        this.addChild(this._person);
-        egret.startTick(():boolean=>{
-            if(this._person.x==x && this._person.y==y){
-                this.StopWalkPlay();
-                this.PlayIdle();
-                console.log("123456498");
-                this.state=0;
-            }
+       /* egret.startTick(():boolean=>{
+             p.Creat();
             return false;
-        },this);
-
-*/
+        },this);*/
+        p.Creat();
+    
     }
-    private IdlePlay(){
-        egret.startTick(this.PlayIdle,this);
-    }
-    private Idlelist=["Idle0_png","Idle1_png","Idle2_png","Idle3_png"];
-    private Idlecount:number=-1;
-    private PlayIdle():boolean{
-        this.Idlecount++;
-        this.i++;
-        if(this.Idlecount>=this.Idlelist.length)
-            this.Idlecount=0;
-        //console.log(this.Idlecount);
-        if(this.i==10){
-            this._person.texture=RES.getRes(this.Idlelist[this.Idlecount]);
-            this.i=0
-        }
-        return false;
-    }
-    private StopIdlePlay(){
-        egret.stopTick(this.PlayIdle,this);
-    }
-    private Walklist=["10000_png","10001_png","10002_png","10003_png","10004_png","10005_png","10006_png","10007_png"];
-    private Walkcount=-1;
-    private i=0;
-    private WalkPlay(){
-        egret.startTick(this.PlayWalk,this);
-    }
-    private PlayWalk():boolean{
-        this.Walkcount++;
-        this.i++;
-        //console.log(this.i);
-        if(this.Walkcount>=this.Walklist.length)
-            this.Walkcount=0;
-        if(this.i==10){
-            this._person.texture=RES.getRes(this.Walklist[this.Walkcount]);
-            this.i=0;
-        }
-        return false;
-    }
-     private StopWalkPlay(){
-        egret.stopTick(this.PlayWalk,this);
-    }
-
-
-    private setAnchor(e:egret.Bitmap):void
-    {
-        e.$setAnchorOffsetX(e.width/2);
-        e.$setAnchorOffsetY(e.height/2);
-    }
+  
     /**
      * 根据name关键字创建一个Bitmap对象。name属性请参考resources/resource.json配置文件的内容。
      * Create a Bitmap object according to name keyword.As for the property of name please refer to the configuration file of resources/resource.json.
