@@ -1,7 +1,7 @@
 class Person extends egret.DisplayObjectContainer{
       public _person:egret.Bitmap=new egret.Bitmap();
       private _State:State;
-      
+      private _speed:number=1.5;
       public constructor() {
         super();
       }
@@ -30,14 +30,16 @@ class Person extends egret.DisplayObjectContainer{
         var x:number;
         var y:number;
         this.parent.stage.addEventListener(egret.TouchEvent.TOUCH_TAP,(evt:egret.TouchEvent)=>{
+            var dis=Math.sqrt(Math.pow((evt.stageX-this._person.x),2)+Math.pow((evt.stageY-this._person.y),2));
+            var time=dis/this._speed*10;
             if(this._State==walk)
             {
                 console.log("          "+this._State);
                 egret.Tween.removeTweens(this._person);
-                egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},2000, egret.Ease.sineIn );
+                egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},time, egret.Ease.sineIn );
             }else{
                  this.SetState(walk);
-                 egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},2000, egret.Ease.sineIn );
+                 egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},time, egret.Ease.sineIn );
             }
             x=evt.stageX;
             y=evt.stageY;

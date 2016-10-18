@@ -3,6 +3,7 @@ var Person = (function (_super) {
     function Person() {
         _super.call(this);
         this._person = new egret.Bitmap();
+        this._speed = 1.5;
     }
     var d = __define,c=Person,p=c.prototype;
     p.SetState = function (e) {
@@ -30,14 +31,16 @@ var Person = (function (_super) {
         var x;
         var y;
         this.parent.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            var dis = Math.sqrt(Math.pow((evt.stageX - _this._person.x), 2) + Math.pow((evt.stageY - _this._person.y), 2));
+            var time = dis / _this._speed * 10;
             if (_this._State == walk) {
                 console.log("          " + _this._State);
                 egret.Tween.removeTweens(_this._person);
-                egret.Tween.get(_this._person).to({ x: evt.stageX, y: evt.stageY }, 2000, egret.Ease.sineIn);
+                egret.Tween.get(_this._person).to({ x: evt.stageX, y: evt.stageY }, time, egret.Ease.sineIn);
             }
             else {
                 _this.SetState(walk);
-                egret.Tween.get(_this._person).to({ x: evt.stageX, y: evt.stageY }, 2000, egret.Ease.sineIn);
+                egret.Tween.get(_this._person).to({ x: evt.stageX, y: evt.stageY }, time, egret.Ease.sineIn);
             }
             x = evt.stageX;
             y = evt.stageY;
