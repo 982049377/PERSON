@@ -1,7 +1,8 @@
 class Person extends egret.DisplayObjectContainer{
-      public _person:egret.Bitmap;
+      public _person:egret.Bitmap=new egret.Bitmap();
       //private stata:PersonState=new PersonState();
       private _State:State;
+      
       public constructor() {
         super();
       }
@@ -19,14 +20,25 @@ class Person extends egret.DisplayObjectContainer{
         this.setAnchor(this._person);
         var walk:Walk=new Walk();
         var idle:Idle=new Idle ();
+        this._State=idle;
         idle.onEnter();
         //this.parent.stage.addEventListener(egret.TouchEvent.TOUCH_TAP,setposition,this);
         this.addChild(this._person);
+        
+        var x:number;
+        var y:number;
         function setposition(evt:egret.TouchEvent){
             this.SetState(walk);
             egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},2000, egret.Ease.sineIn );
+            x=evt.stageX;
+            y=evt.stageY;
         }
-        this.SetState(idle);
+        egret.startTick(():boolean=>{
+        if(this._person.x==x && this._person.y==y){
+                this.SetState(idle);
+        }
+        return false;
+        },this);
 
       }
       public createBitmapByName(name:string):egret.Bitmap {
@@ -43,22 +55,25 @@ class Person extends egret.DisplayObjectContainer{
 
 }
 
-interface State  {
+interface State {
 
       onEnter();
       
       onExit();
   }
 class Idle implements State{
-        private person:Person;
+        private person:Person=new Person();;
         private Idlelist=["Idle0_png","Idle1_png","Idle2_png","Idle3_png"];
         private count:number=-1;
+
         onEnter(){
             egret.startTick(this.PlayIdle,this);
         }
+
         onExit(){
             egret.stopTick(this.PlayIdle,this);
         }
+
         private PlayIdle():boolean{
           this.count++;
           if(this.count>=this.Idlelist.length)
@@ -73,9 +88,11 @@ class Walk implements State{
           private Walklist=["10000_png","10001_png","10002_png","10003_png","10004_png","10005_png","10006_png","10007_png"];
           private Walkcount=-1;
           private person:Person;
+          
           onEnter(){
                 egret.Ticker.getInstance().register(this.PlayWalk,this);
           }
+
           onExit(){
                 egret.Ticker.getInstance().unregister(this.PlayWalk,this);
           }
@@ -86,13 +103,3 @@ class Walk implements State{
                 this.person._person.texture=RES.getRes(this.Walklist[this.Walkcount]);
           }
 }
-/*class PersonState {
-        _State:State;
-        public SetState(e:State){
-            if(this._State){
-                this._State.onExit();
-            }
-            e=this._State;
-            this._State.onEnter();
-         }
-}*/

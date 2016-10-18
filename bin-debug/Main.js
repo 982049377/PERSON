@@ -31,8 +31,6 @@ var Main = (function (_super) {
     //public sssssss;
     function Main() {
         _super.call(this);
-        this._personStay = new Array();
-        this._personWalk = new Array();
         this.state = 0;
         this.Idlelist = ["Idle0_png", "Idle1_png", "Idle2_png", "Idle3_png"];
         this.Idlecount = -1;
@@ -110,53 +108,57 @@ var Main = (function (_super) {
      * Create a game scene
      */
     p.createGameScene = function () {
-        var _this = this;
         var bg = this.createBitmapByName("bg_jpg");
         bg.width = this.stage.stageWidth;
         bg.height = this.stage.stageHeight;
         this.addChild(bg);
-        /* var p:Person=new Person();
-         p.Creat();
-         this.addChild(p);*/
+        var p = new Person();
+        p.Creat();
+        p.x = 111;
+        p.y = 111;
+        this.addChild(p);
         /*  this.container = new egret.DisplayObjectContainer();
           this.addChild(this.container);
           this.container.x = 250;
           this.container.y = 350;
           */
-        this._person = this.createBitmapByName("10000_png");
-        this.IdlePlay();
-        this.stage.$touchEnabled = true;
-        this._person.x = 111;
-        this._person.y = 111;
-        this.setAnchor(this._person);
-        var x;
-        var y;
-        this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
-            _this.WalkPlay();
-            _this.StopIdlePlay();
-            if (_this.state == 0) {
-                egret.Tween.get(_this._person).to({ x: evt.stageX, y: evt.stageY }, 2000, egret.Ease.sineIn);
-                console.log(_this._person.x + "," + _this._person.y);
-                console.log(evt.stageX + ",,,,," + evt.stageY);
-            }
-            else {
-                egret.Tween.removeTweens(_this._person);
-                egret.Tween.get(_this._person).to({ x: evt.stageX, y: evt.stageY }, 2000, egret.Ease.sineIn);
-            }
-            _this.state = 1;
-            x = evt.stageX;
-            y = evt.stageY;
-        }, this);
-        this.addChild(this._person);
-        egret.startTick(function () {
-            if (_this._person.x == x && _this._person.y == y) {
-                _this.StopWalkPlay();
-                _this.PlayIdle();
-                console.log("123456498");
-                _this.state = 0;
-            }
-            return false;
-        }, this);
+        /* this._person=this.createBitmapByName("10000_png");
+         this.IdlePlay();
+         this.stage.$touchEnabled=true;
+         this._person.x=111;
+         this._person.y=111;
+         this.setAnchor(this._person);
+         var x:number;
+         var y:number;
+         this.stage.addEventListener(egret.TouchEvent.TOUCH_TAP,(evt:egret.TouchEvent)=>{
+          
+             this.WalkPlay();
+             this.StopIdlePlay();
+             if(this.state==0){
+                 egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},2000, egret.Ease.sineIn );
+                 //console.log(this._person.x+","+this._person.y);
+                 //console.log(evt.stageX+",,,,,"+evt.stageY);
+             }else{
+                 egret.Tween.removeTweens(this._person);
+                 egret.Tween.get(this._person).to({x:evt.stageX,y:evt.stageY},2000, egret.Ease.sineIn );
+             }
+             this.state=1;
+             x=evt.stageX;
+             y=evt.stageY;
+            
+         },this);
+         this.addChild(this._person);
+         egret.startTick(():boolean=>{
+             if(this._person.x==x && this._person.y==y){
+                 this.StopWalkPlay();
+                 this.PlayIdle();
+                 console.log("123456498");
+                 this.state=0;
+             }
+             return false;
+         },this);
+ 
+ */
     };
     p.IdlePlay = function () {
         egret.startTick(this.PlayIdle, this);

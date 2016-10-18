@@ -2,6 +2,7 @@ var Person = (function (_super) {
     __extends(Person, _super);
     function Person() {
         _super.call(this);
+        this._person = new egret.Bitmap();
     }
     var d = __define,c=Person,p=c.prototype;
     p.SetState = function (e) {
@@ -12,20 +13,31 @@ var Person = (function (_super) {
         this._State.onEnter();
     };
     p.Creat = function () {
+        var _this = this;
         this._person = this.createBitmapByName("10000_png");
         this._person.x = 0;
         this._person.y = 0;
         this.setAnchor(this._person);
         var walk = new Walk();
         var idle = new Idle();
+        this._State = idle;
         idle.onEnter();
         //this.parent.stage.addEventListener(egret.TouchEvent.TOUCH_TAP,setposition,this);
         this.addChild(this._person);
+        var x;
+        var y;
         function setposition(evt) {
             this.SetState(walk);
             egret.Tween.get(this._person).to({ x: evt.stageX, y: evt.stageY }, 2000, egret.Ease.sineIn);
+            x = evt.stageX;
+            y = evt.stageY;
         }
-        this.SetState(idle);
+        egret.startTick(function () {
+            if (_this._person.x == x && _this._person.y == y) {
+                _this.SetState(idle);
+            }
+            return false;
+        }, this);
     };
     p.createBitmapByName = function (name) {
         var result = new egret.Bitmap();
@@ -42,10 +54,12 @@ var Person = (function (_super) {
 egret.registerClass(Person,'Person');
 var Idle = (function () {
     function Idle() {
+        this.person = new Person();
         this.Idlelist = ["Idle0_png", "Idle1_png", "Idle2_png", "Idle3_png"];
         this.count = -1;
     }
     var d = __define,c=Idle,p=c.prototype;
+    ;
     p.onEnter = function () {
         egret.startTick(this.PlayIdle, this);
     };
@@ -85,14 +99,4 @@ var Walk = (function () {
     return Walk;
 }());
 egret.registerClass(Walk,'Walk',["State"]);
-/*class PersonState {
-        _State:State;
-        public SetState(e:State){
-            if(this._State){
-                this._State.onExit();
-            }
-            e=this._State;
-            this._State.onEnter();
-         }
-}*/ 
 //# sourceMappingURL=Person.js.map

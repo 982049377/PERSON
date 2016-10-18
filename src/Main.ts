@@ -111,8 +111,6 @@ class Main extends egret.DisplayObjectContainer {
     }
 
     private textfield:egret.TextField;
-    private _personStay:Array<egret.Bitmap> = new Array<egret.Bitmap>();
-    private _personWalk:Array<egret.Bitmap> = new Array<egret.Bitmap>();
     private container;
     private _person:egret.Bitmap;
     private state:number=0;
@@ -125,15 +123,18 @@ class Main extends egret.DisplayObjectContainer {
         bg.width=this.stage.stageWidth;
         bg.height=this.stage.stageHeight;
         this.addChild(bg);
-       /* var p:Person=new Person();
+        
+        var p:Person=new Person();
         p.Creat();
-        this.addChild(p);*/
+        p.x=111;
+        p.y=111;
+        this.addChild(p);
       /*  this.container = new egret.DisplayObjectContainer();
         this.addChild(this.container);
         this.container.x = 250;
         this.container.y = 350;
         */
-        this._person=this.createBitmapByName("10000_png");
+       /* this._person=this.createBitmapByName("10000_png");
         this.IdlePlay();
         this.stage.$touchEnabled=true;
         this._person.x=111;
@@ -169,7 +170,7 @@ class Main extends egret.DisplayObjectContainer {
             return false;
         },this);
 
-
+*/
     }
     private IdlePlay(){
         egret.startTick(this.PlayIdle,this);
