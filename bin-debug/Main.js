@@ -108,8 +108,8 @@ var Main = (function (_super) {
         this.addChild(bg);
         var p = new Person();
         p.firstCreat();
-        p.x = 111;
-        p.y = 111;
+        // p.x=111;
+        // p.y=111;
         this.addChild(p);
         /* egret.startTick(():boolean=>{
               p.Creat();

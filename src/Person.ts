@@ -1,6 +1,5 @@
 class Person extends egret.DisplayObjectContainer{
       public _person:egret.Bitmap=new egret.Bitmap();
-      //private stata:PersonState=new PersonState();
       private _State:State;
       
       public constructor() {
@@ -20,14 +19,14 @@ class Person extends egret.DisplayObjectContainer{
         this.setAnchor(this._person);
  
         this.addChild(this._person);
-        var idle:Idle=new Idle ();
-        var walk:Walk=new Walk();
+        var idle:Idle=new Idle (this);
+        var walk:Walk=new Walk(this);
         this._State=idle;
         idle.onEnter();
       }
       public Creat(){
-        var walk:Walk=new Walk();
-        var idle:Idle=new Idle ();
+        var walk:Walk=new Walk(this);
+        var idle:Idle=new Idle (this);
         var x:number;
         var y:number;
         this.parent.stage.addEventListener(egret.TouchEvent.TOUCH_TAP,(evt:egret.TouchEvent)=>{
@@ -72,9 +71,13 @@ interface State {
       onExit();
   }
 class Idle implements State{
+        public constructor(pperson:Person) {
+            this.person=pperson;
+        }
         private person:Person=new Person();;
         private Idlelist=["Idle0_png","Idle1_png","Idle2_png","Idle3_png"];
         private count:number=-1;
+        private i:number=0;
 
         onEnter(){
             egret.startTick(this.PlayIdle,this);
@@ -87,11 +90,15 @@ class Idle implements State{
 
         private PlayIdle():boolean{
           this.count++;
+          this.i++;
           if(this.count>=this.Idlelist.length)
               this.count=0;
           //var na=(i+10000).toString()+"_png";
-          console.log("Idle");
-          this.person._person.texture=RES.getRes(this.Idlelist[this.count]);
+          //console.log("Idle");
+          if(this.i==10){
+             this.person._person.texture=RES.getRes(this.Idlelist[this.count]);
+             this.i=0;
+          }
           return false;
         }
 }
@@ -99,7 +106,10 @@ class Walk implements State{
           private Walklist=["10000_png","10001_png","10002_png","10003_png","10004_png","10005_png","10006_png","10007_png"];
           private Walkcount=-1;
           private person:Person=new Person();
-          
+          private i:number=0;
+          public constructor(pperson:Person) {
+             this.person=pperson;
+          }
           onEnter(){
                 egret.startTick(this.PlayWalk,this);
                      console.log("EnterWalk");
@@ -110,10 +120,15 @@ class Walk implements State{
           }
           private PlayWalk():boolean{
                 this.Walkcount++;
+                this.i++;
                 if(this.Walkcount>=this.Walklist.length)
                     this.Walkcount=0;
-                this.person._person.texture=RES.getRes(this.Walklist[this.Walkcount]);
-                  console.log("Walk");
+                if(this.i==10){
+                    this.person._person.texture=RES.getRes(this.Walklist[this.Walkcount]);
+                    this.i=0;
+                }
+                //  console.log("Walk");
+                //  console.log(this.Walklist[this.Walkcount]);
                   return false;
           }
 }

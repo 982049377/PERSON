@@ -18,15 +18,15 @@ var Person = (function (_super) {
         this._person.y = 0;
         this.setAnchor(this._person);
         this.addChild(this._person);
-        var idle = new Idle();
-        var walk = new Walk();
+        var idle = new Idle(this);
+        var walk = new Walk(this);
         this._State = idle;
         idle.onEnter();
     };
     p.Creat = function () {
         var _this = this;
-        var walk = new Walk();
-        var idle = new Idle();
+        var walk = new Walk(this);
+        var idle = new Idle(this);
         var x;
         var y;
         this.parent.stage.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
@@ -63,10 +63,12 @@ var Person = (function (_super) {
 }(egret.DisplayObjectContainer));
 egret.registerClass(Person,'Person');
 var Idle = (function () {
-    function Idle() {
+    function Idle(pperson) {
         this.person = new Person();
         this.Idlelist = ["Idle0_png", "Idle1_png", "Idle2_png", "Idle3_png"];
         this.count = -1;
+        this.i = 0;
+        this.person = pperson;
     }
     var d = __define,c=Idle,p=c.prototype;
     ;
@@ -79,21 +81,27 @@ var Idle = (function () {
     };
     p.PlayIdle = function () {
         this.count++;
+        this.i++;
         if (this.count >= this.Idlelist.length)
             this.count = 0;
         //var na=(i+10000).toString()+"_png";
-        console.log("Idle");
-        this.person._person.texture = RES.getRes(this.Idlelist[this.count]);
+        //console.log("Idle");
+        if (this.i == 10) {
+            this.person._person.texture = RES.getRes(this.Idlelist[this.count]);
+            this.i = 0;
+        }
         return false;
     };
     return Idle;
 }());
 egret.registerClass(Idle,'Idle',["State"]);
 var Walk = (function () {
-    function Walk() {
+    function Walk(pperson) {
         this.Walklist = ["10000_png", "10001_png", "10002_png", "10003_png", "10004_png", "10005_png", "10006_png", "10007_png"];
         this.Walkcount = -1;
         this.person = new Person();
+        this.i = 0;
+        this.person = pperson;
     }
     var d = __define,c=Walk,p=c.prototype;
     p.onEnter = function () {
@@ -105,10 +113,15 @@ var Walk = (function () {
     };
     p.PlayWalk = function () {
         this.Walkcount++;
+        this.i++;
         if (this.Walkcount >= this.Walklist.length)
             this.Walkcount = 0;
-        this.person._person.texture = RES.getRes(this.Walklist[this.Walkcount]);
-        console.log("Walk");
+        if (this.i == 10) {
+            this.person._person.texture = RES.getRes(this.Walklist[this.Walkcount]);
+            this.i = 0;
+        }
+        //  console.log("Walk");
+        //  console.log(this.Walklist[this.Walkcount]);
         return false;
     };
     return Walk;

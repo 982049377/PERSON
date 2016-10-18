@@ -122,8 +122,8 @@ class Main extends egret.DisplayObjectContainer {
         
         var p:Person=new Person();
         p.firstCreat();
-        p.x=111;
-        p.y=111;
+       // p.x=111;
+       // p.y=111;
         this.addChild(p);
        /* egret.startTick(():boolean=>{
              p.Creat();
